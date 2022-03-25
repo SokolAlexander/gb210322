@@ -1,10 +1,11 @@
 import "./Message.styles.scss";
 
-export const Message = ({ name, asd, bold }) => {
+export const Message = ({ author, text }) => {
   return (
-    <h3 className={"message" + (!bold ? " header" : "")}>
-      I am a message: {name}, {asd}
-    </h3>
+    <div className="message">
+      <span>{author}:</span>
+      <span>{text}</span>
+    </div>
   );
 };
 
