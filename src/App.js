@@ -1,64 +1,43 @@
-import logo from "./logo.svg";
 import "./App.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Message } from "./components/Message/Message";
-import { Counter } from "./components/Example/Example";
 import { Form } from "./components/Form/Form";
-
-const name = "me";
-
-const msgs = [
-  {
-    author: name,
-    text: "text1",
-  },
-  {
-    author: name,
-    text: "text2",
-  },
-  {
-    author: 'robot',
-    text: "message from robot",
-  },
-];
+import { AUTHORS } from "./utils/constants";
+import { MessageList } from "./components/MessageList/MessageList";
 
 function App() {
-  const [messages, setMessages] = useState(msgs);
+  const [messages, setMessages] = useState([]);
 
-  const addMessage = (newText) => {
-    setMessages([...messages, { text: newText, author: name }]);
+  const addMessage = (newMsg) => {
+    setMessages([...messages, newMsg]);
   };
+
+  const sendMessage = (text) => {
+    addMessage({
+      author: AUTHORS.human,
+      text,
+    });
+  };
+
+  useEffect(() => {
+    let timeout;
+    if (messages[messages.length - 1]?.author === AUTHORS.human) {
+      timeout = setTimeout(() => {
+        addMessage({ author: AUTHORS.robot, text: "hello friend" });
+      }, 1000);
+    }
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [messages]);
 
   return (
     <div className="App">
-      {/* <Counter randomNumber={rand} /> */}
-      {messages.map((msg) => (
-        <Message text={msg.text} author={msg.author} />
-      ))}
-      {/* <button onClick={addMessage}>Add msg</button> */}
-      <Form onSubmit={addMessage} />
+      <MessageList messages={messages} />
+      <Form onSubmit={sendMessage} />
     </div>
   );
 }
-
-// export class AppClass extends React.Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <a
-//             className="App-link"
-//             href="https://reactjs.org"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Learn React
-//           </a>
-//         </header>
-//       </div>
-//     );
-//   }
-// }
 
 export default App;
