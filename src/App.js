@@ -4,6 +4,9 @@ import { Message } from "./components/Message/Message";
 import { Form } from "./components/Form/Form";
 import { AUTHORS } from "./utils/constants";
 import { MessageList } from "./components/MessageList/MessageList";
+import { ChatList } from "./components/ChatList/ChatList";
+import { ExampleForm } from "./components/Example/Example";
+import { TextField } from "@mui/material";
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -39,15 +42,33 @@ function App() {
     };
   }, [messages]);
 
-  const handleScroll = () => {
-    wrapperRef.current?.scrollTo({ x: 0, y: 0 });
-  };
-
   return (
     <div className="App" ref={wrapperRef}>
-      <MessageList messages={messages} />
-      <Form onSubmit={sendMessage} />
-      <button onClick={handleScroll}>scroll</button>
+      <ChatList />
+      <div>
+        <MessageList messages={messages} />
+        <Form onSubmit={sendMessage} />
+      </div>
+      <ExampleForm
+        onSubmit={() => {}}
+        anananana={({ value, handleChange }) => (
+          <TextField
+            value={value}
+            onChange={handleChange}
+            // inputRef={inputRef}
+          />
+        )}
+      ></ExampleForm>
+      <ExampleForm
+        onSubmit={() => {}}
+        anananana={({ value, handleChange }) => (
+          <input
+            value={value}
+            onChange={handleChange}
+            // inputRef={inputRef}
+          />
+        )}
+      ></ExampleForm>
     </div>
   );
 }
