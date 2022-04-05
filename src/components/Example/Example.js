@@ -196,3 +196,25 @@ export const ExampleForm = ({ onSubmit, anananana }) => {
     </form>
   );
 };
+
+const foo = (a, b) => `${a} + ${b}`;
+const bar = () => "bar";
+const baz = () => "baz";
+// const addLog = (func) => () => {
+//   console.log('0-0-0-0-0-0');
+//   func();
+// }
+
+function addLog(func) {
+  return function (...args) {
+    console.log("0-0-0-0-0-0");
+    return func(...args);
+  };
+}
+
+const fooWithLog = addLog(foo);
+const barWithLog = addLog(bar);
+const bazWithLog = addLog(baz);
+
+fooWithLog(1, 2);
+fooWithLog(4, 5);
