@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 
@@ -205,16 +205,51 @@ const baz = () => "baz";
 //   func();
 // }
 
-function addLog(func) {
-  return function (...args) {
-    console.log("0-0-0-0-0-0");
-    return func(...args);
-  };
-}
+// function addLog(func) {
+//   return function (...args) {
+//     // console.log("0-0-0-0-0-0");
+//     return func(...args);
+//   };
+// }
 
-const fooWithLog = addLog(foo);
-const barWithLog = addLog(bar);
-const bazWithLog = addLog(baz);
+// const fooWithLog = addLog(foo);
+// const barWithLog = addLog(bar);
+// const bazWithLog = addLog(baz);
 
-fooWithLog(1, 2);
-fooWithLog(4, 5);
+// fooWithLog(1, 2);
+// fooWithLog(4, 5);
+
+const Child1 = React.memo(() => {
+  console.log("Child1 render");
+
+  return <h3>HELLO!</h3>;
+});
+
+const Child2 = React.memo(({ count }) => {
+  console.log("Child2 render");
+
+  return <div>{count}</div>;
+});
+
+const Child3 = React.memo(({ onClick }) => {
+  console.log("Child3 render");
+
+  return <button onClick={onClick}>Click</button>;
+});
+
+export const Parent = () => {
+  const [count, setCount] = useState(0);
+
+  const updateCount = useCallback(() => {
+    setCount(prevCount => prevCount + 1);
+  }, []);
+
+  console.log("Parent render");
+  return (
+    <>
+      <Child1 />
+      <Child2 count={count} />
+      <Child3 onClick={updateCount} />
+    </>
+  );
+};
